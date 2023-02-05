@@ -14,15 +14,6 @@ const UserSchema= new mongoose.Schema({
     email:String,
     appointments:[]
 })
-// {
-//     mon:Array,
-//     tue: Array,
-//     wed: Array,
-//     thus:Array,
-//     fri: Array,
-//     sat: Array,
-//     sun: Array
-//   },
 const AdminSchema= new mongoose.Schema({
     name:String,
     password:String,
