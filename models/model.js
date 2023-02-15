@@ -1,3 +1,7 @@
+
+
+//Models
+const mongoose=require('mongoose')
 const UserSchema= new mongoose.Schema({
     name:String,
     password:String,
@@ -21,8 +25,6 @@ const AdminSchema= new mongoose.Schema({
     
     
 })
-
-//Models
 const user= mongoose.model('User',UserSchema)
 const admin= mongoose.model('Admin',AdminSchema)
 module.exports={

@@ -1,4 +1,4 @@
-import { admin,user } from "../../models/model"
+const { admin,user } =require('../../models/model')
 
 const handleRegUser=(req,res)=>{
     const {email,name,password} =req.body
@@ -14,7 +14,7 @@ const handleLoginUser=(req,res)=>{
         res.json({msg:'found'})
     })
 }
-const getShops=(req,registeradmin)=>{
+const getShops=(req,res)=>{
     admin.find().then((result)=>{
         // if (err) console.log(err)
          console.log(result)
@@ -67,4 +67,11 @@ const makeApp=(req,res)=>{
         
         
     })
+}
+module.exports={
+    handleRegUser,
+    handleLoginUser,
+    getShops,
+    makeApp,
+    getSpecShops
 }
