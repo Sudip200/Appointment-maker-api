@@ -17,7 +17,10 @@ async function connect(){
 //const admin= mongoose.model('Admin',AdminSchema)
 //const slots= mongoose.model('slots',SlotsSchema)
 
-
+//Home
+app.get('/',(req,res)=>{
+    res.send("Welcome to Appointment Maker API")
+})
 //Registers and Logins-------------------->
 
 app.post('/registeruser',handleRegUser)
@@ -32,7 +35,7 @@ app.get('/getslot/:id',getSpecSlot)
  //User dashboard-------------------->
 app.get('/shops',getShops)
 app.get('/shops/:id',getSpecShops)
-app.post('/makeapp',makeApp)
+app.post('/makeapp',makeApp) 
 
 //Middle wares
 app.use(connect(),()=>{

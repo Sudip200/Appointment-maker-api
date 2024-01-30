@@ -1,16 +1,32 @@
 const { admin,user } =require('../models/model')
+const jwt = require('jsonwebtoken')
+const secretKey = 'sudiptoapp'
 const handleRegAdmin=(req,res)=>{
     const {email,name,password,shop} =req.body
+    console.log(req.body)
     admin.create({name:name,email:email,password:password,shopName:shop},(err,result)=>{
-        if(err) console.log(err)
-        res.json({msg:'success'})
+        if(err){
+            console.log(err)
+            res.status(500).json({msg:'error'})
+        }else{
+            const token = jwt.sign({userid:result._id,email:result.email},secretKey,{expiresIn:'1h'});
+            res.json({msg:'success',token:token})
+        }
     })  
 }
 const handleAdminLogin=(req,res)=>{
     const {email,password} =req.body
     admin.find({email:email,password:password},(err,result)=>{
-        if(err) console.log(err)
-        res.json({msg:'found'})
+        if(err){
+            console.log(err)
+            res.status(500).json({msg:'error'})
+        }else if(!result){
+            res.status(401).json({msg:'not found'})
+        }else{
+            const token =jwt.sign({userid:result._id,email:result.email},secretKey,{expiresIn:'1h'});
+            res.json({msg:'success',token:token})
+        }
+        
     })
 }
 

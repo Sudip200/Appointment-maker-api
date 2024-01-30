@@ -1,18 +1,35 @@
 const { admin,user } =require('../../models/model')
+const jwt = require('jsonwebtoken')
+const secretKey = 'sudiptoapp'
 
-const handleRegUser=(req,res)=>{
-    const {email,name,password} =req.body
-    user.create({name:name,email:email,password:password},(err,result)=>{
-        if(err) console.log(err)
-        res.json({msg:'success'})
-    })
+const handleRegUser = (req, res) => {
+    const { email, name, password } = req.body;
+    user.create({ name, email, password }, (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({ msg: 'Registration failed' });
+        } else {
+            // Generate a JWT token after successful registration
+            const token = jwt.sign({ userId: result._id, email }, secretKey, { expiresIn: '1h' });
+            res.json({ msg: 'success', token });
+        }
+    });
 }
-const handleLoginUser=(req,res)=>{
-    const {email,password} =req.body
-    user.find({email:email,password:password},(err,result)=>{
-        if(err) console.log(err)
-        res.json({msg:'found'})
-    })
+
+const handleLoginUser = (req, res) => {
+    const { email, password } = req.body;
+    user.findOne({ email, password }, (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({ msg: 'Login failed' });
+        } else if (!result) {
+            res.status(401).json({ msg: 'Invalid credentials' });
+        } else {
+            // Generate a JWT token after successful login
+            const token = jwt.sign({ userId: result._id, email }, secretKey, { expiresIn: '1h' });
+            res.json({ msg: 'success', token });
+        }
+    });
 }
 const getShops=(req,res)=>{
     admin.find().then((result)=>{
